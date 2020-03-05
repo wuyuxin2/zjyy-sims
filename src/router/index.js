@@ -5,6 +5,20 @@ import Home from "../views/Home.vue";
 Vue.use(VueRouter);
 
 const routes = [
+  /* -------登录页------- */
+  {
+    path: "/user",
+    children: [
+      {
+        path: "/user/login",
+        name: "login",
+        // 对应的组件使用异步加载
+        component: () =>
+          import(/* webpackChunkName: "user" */ "../views/Login.vue")
+      }
+    ]
+  },
+  /* -------首页------- */
   {
     path: "/",
     name: "Home",
