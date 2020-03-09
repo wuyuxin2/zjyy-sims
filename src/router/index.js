@@ -46,6 +46,7 @@ const routes = [
       {
         path: "/operator-center",
         name: "operator-center",
+        component: { render: h => h("router-view") },
         meta: {
           icon: "experiment",
           title: "手术中心"

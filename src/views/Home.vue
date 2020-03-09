@@ -1,16 +1,21 @@
 <template>
-  <a-table :columns="columns" :dataSource="data" :scroll="{ x: 1300 }">
-    <span slot="tags" slot-scope="tags">
-      <a-tag v-for="item in tags" color="green" :key="item">
-        {{ item }}
-      </a-tag>
-    </span>
-    <span slot="tags" slot-scope="tags">
-      <a-tag v-for="item in tags" color="green" :key="item">
-        {{ item }}
-      </a-tag>
-    </span>
-  </a-table>
+  <div>
+    <div class="search-wrapper">
+      <input type="text" v-model="search" placeholder="Search title.." />
+    </div>
+    <a-table :columns="columns" :dataSource="data" :scroll="{ x: 1300 }">
+      <span slot="tags" slot-scope="tags">
+        <a-tag v-for="item in tags" color="green" :key="item">
+          {{ item }}
+        </a-tag>
+      </span>
+      <span slot="tags" slot-scope="tags">
+        <a-tag v-for="item in tags" color="green" :key="item">
+          {{ item }}
+        </a-tag>
+      </span>
+    </a-table>
+  </div>
 </template>
 <script>
 const columns = [
@@ -57,10 +62,51 @@ const data = [
 export default {
   data() {
     return {
+      search: "",
       data,
       columns
     };
+  },
+  computed: {
+    filteredList() {
+      return this.postList.filter(post => {
+        return post.title.toLowerCase().includes(this.search.toLowerCase());
+      });
+    }
   }
 };
 </script>
-<style scoped></style>
+<style scoped lang="scss">
+.search-wrapper {
+  position: relative;
+  label {
+    position: absolute;
+    font-size: 12px;
+    color: rgba(0, 0, 0, 0.5);
+    top: 8px;
+    left: 12px;
+    z-index: -1;
+    transition: 0.15s all ease-in-out;
+  }
+}
+input {
+  padding: 4px 12px;
+  color: rgba(0, 0, 0, 0.7);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  transition: 0.15s all ease-in-out;
+  background: white;
+  &:focus {
+    outline: none;
+    transform: scale(1.05);
+    & + label {
+      font-size: 10px;
+      transform: translateY(-24px) translateX(-12px);
+    }
+  }
+  &::-webkit-input-placeholder {
+    font-size: 12px;
+    color: rgba(0, 0, 0, 0.5);
+    font-weight: 100;
+  }
+}
+</style>
